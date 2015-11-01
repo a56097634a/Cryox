@@ -27,3 +27,4 @@ rm -rf Cryox/
 
 ### Dependencies
 iron:router
+sergeyt:typeahead
