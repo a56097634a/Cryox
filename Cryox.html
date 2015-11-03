@@ -1,14 +1,105 @@
-<head>
-  <title>Cryox</title>
-</head>
+<template name="layout">
+    <head>
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+        <title>CRYOX</title>
+    </head>
 
-<body>
-  <h1>Welcome to Meteor!</h1>
+    <span style="opacity: .25; position: fixed; z-index: -99; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <img style="-webkit-filter: blur(5px);" src="/image/logo.png">
+    </span>
 
-  {{> hello}}
-</body>
+    {{> yield}}
+</template>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name="progress">
+    <div class="prog">
+        <ul>
+            {{#each indicators}}
+                <li class="{{active}}">{{ name }}</li>
+            {{/each}}
+        </ul>
+    </div>
+</template>
+
+<template name="cancel">
+    <a href="{{pathFor route='start'}}">
+        <button class="cancel">CANCEL</button>
+    </a>
+</template>
+
+<template name="start">
+    <h1>CRYOX</h1>
+    <p>For All Your Freezing Needs&trade;</p>
+    <br>
+    <div>
+        <a href="{{pathFor route='destination'}}"><button class="big pulsate">START</button></a>
+    </div>
+</template>
+
+<template name="destination">
+    {{> progress}}
+
+    <h1>Choose A Destination</h1>
+    <h2>Please type where you would like to go</h2>
+
+    <div class="form-group">
+        <input class="form-control typeahead" name="dest" type="text"
+               placeholder="Nearest Facility"
+               autocomplete="off" spellcheck="off"
+               data-source="destinations"
+               data-limit="100"/>
+    </div>
+
+    <a class="nav prev" href="{{pathFor route='start'}}">
+        <div>PREV</div>
+    </a>
+    <a class="nav next pulsate" href="{{pathFor route='time'}}">
+        <div>NEXT</div>
+    </a>
+
+    <br><br><br><br>
+    <p>Map (and stats?)</p>
+    <br><br><br><br>
+
+    {{> cancel}}
+</template>
+
+<template name="time">
+    {{> progress}}
+
+    <h1>Choose A Time</h1>
+    <h2>When would you like to be woken?</h2>
+    <p>
+        draggable time selector (day of the week displayed accordingly)
+    </p>
+
+    <a class="nav prev" href="{{pathFor route='destination'}}">
+        <div>PREV</div>
+    </a>
+    <a class="nav next pulsate" href="{{pathFor route='review'}}">
+        <div>NEXT</div>
+    </a>
+
+    {{> cancel}}
+</template>
+
+<template name="review">
+    {{> progress}}
+
+    <h1>You will be woken</h1>
+    <p>
+        In (Destination)
+    </p>
+    <p>
+        At (Time)
+    </p>
+
+    <a class="nav prev" href="{{pathFor route='time'}}">
+        <div>PREV</div>
+    </a>
+    <a class="nav next pulsate" href="#">
+        <div>NEXT</div>
+    </a>
+
+    {{> cancel}}
 </template>
