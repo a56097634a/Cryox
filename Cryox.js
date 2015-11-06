@@ -2,10 +2,13 @@
     meteor add sergeyt:typeahead
     meteor add iron:router
  */
+Dest = new Mongo.Collection("dests");
+
 
 if (Meteor.isClient) {
     // counter starts at 0
-    Session.setDefault('counter', 0);
+    Session.setDefault('destinationshow', "abc");
+    Session.setDefault('timeline', "123");
 
     /*
      * Start
@@ -35,20 +38,48 @@ if (Meteor.isClient) {
     };
 
     Template.destination.helpers({
-        counter: function () {
-            return Session.get('counter');
-        },
+        /*dests: function (event) {
+            var text = event.target.dest.value;
+            Session.set('destination', text);
+          //return Dest.find({});
+          //return Session.get('destination');
+        },*/
+        
         destinations: function() {
-            return Destinations.find().fetch().map(function(it){ return it.name; });
+            //Session.set('destinationshow', "text");
+           return Destinations.find().fetch().map(function(it){ return it.name; });
         }
     });
 
     Template.destination.events({
-        'click button': function () {
-            // decrement the counter when button is clicked
-            Session.set('counter', Session.get('counter') - 1);
+        /*"click .nav prev": function (event, template) {
+            //alert("My button was clicked!");
+        },*/
+     'input #dest': function (event) {
+            //event.preventDefault();
+            var text = event.currentTarget.value;
+            console.log("text");
+            Session.set('destinationshow', "text");
+          //return Dest.find({});
+          //return Session.get('destination');
         }
-    });
+       /* "submit .new-task": function (event) {
+      // Prevent default browser form submit
+      event.preventDefault();
+ 
+      // Get value from form element
+      var text = event.target.dest.value;
+ 
+      // Insert a task into the collection
+      Dest.insert({
+        text: dest,
+        createdAt: new Date() // current time
+      });
+ 
+      // Clear form
+      //event.target.dest.value = "";
+    }*/
+  });
 
     /*
      * Progress
@@ -72,6 +103,26 @@ if (Meteor.isClient) {
             return objects;
         }
     });
+
+
+    /*
+     * review
+     */
+
+
+    Template.review.helpers({
+     destshow: function () {
+      // Show newest tasks at the top
+      //Session.set('destinationshow', "text");
+      return Session.get('destinationshow');
+    }
+
+    });
+
+    Template.review.events({
+      
+  });
+
 }
 
 
