@@ -21,6 +21,12 @@
     </div>
 </template>
 
+<template name="today">
+    <p style="padding-bottom: 1em; border-bottom: 1px solid white;">
+        {{today_month}} {{today.getDate}}, {{today.getFullYear}}
+    </p>
+</template>
+
 <template name="cancel">
     <a href="{{pathFor route='start'}}">
         <button class="cancel">CANCEL</button>
@@ -32,19 +38,22 @@
     <p>For All Your Freezing Needs&trade;</p>
     <br>
     <div>
-        <a href="{{pathFor route='destination'}}"><button class="big pulsate">START</button></a>
+        <a href="{{pathFor route='destination'}}">
+            <button class="big pulsate">START</button>
+        </a>
     </div>
 </template>
 
 <template name="destination">
+    {{> today}}
     {{> progress}}
 
     <h1>Choose A Destination</h1>
-    <h2>Please type where you would like to go</h2>
+    <h2>Where would you like to go?</h2>
 
     <div class="form-group">
-        <input class="form-control typeahead" name="dest" type="text"
-               placeholder="Nearest Facility"
+        <input id="dest" class="form-control typeahead" name="dest" type="text"
+               placeholder="{{ destination }}"
                autocomplete="off" spellcheck="off"
                data-source="destinations"
                data-limit="100"/>
@@ -65,13 +74,55 @@
 </template>
 
 <template name="time">
+    {{> today}}
     {{> progress}}
 
     <h1>Choose A Time</h1>
     <h2>When would you like to be woken?</h2>
-    <p>
-        draggable time selector (day of the week displayed accordingly)
-    </p>
+    <div class="form-group">
+        <!--<div style="padding-bottom: 2em;">-->
+            <!--<select id="day">-->
+                <!--<option value="1">Monday</option>-->
+                <!--<option value="2">Tuesday</option>-->
+                <!--<option value="3">Wednesday</option>-->
+                <!--<option value="4">Thursday</option>-->
+                <!--<option value="5">Friday</option>-->
+                <!--<option value="6">Saturday</option>-->
+                <!--<option value="0">Sunday</option>-->
+            <!--</select>-->
+        <!--</div>-->
+        <select id="month">
+            <option value="0">January</option>
+            <option value="1">February</option>
+            <option value="2">March</option>
+            <option value="3">April</option>
+            <option value="4">May</option>
+            <option value="5">June</option>
+            <option value="6">July</option>
+            <option value="7">August</option>
+            <option value="8">September</option>
+            <option value="9">October</option>
+            <option value="10">November</option>
+            <option value="11">December</option>
+        </select>
+        <input value="{{time.getDate}}" size=2 id="date"
+               onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+               onclick="this.setSelectionRange(0, this.value.length);"/>
+
+        <input value="{{time.getFullYear}}" size=4 id="year"
+               onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+               onclick="this.setSelectionRange(0, this.value.length);"/>
+        <p>AT</p>
+        <input value="{{time.getHours}}" size=2 id="hours"
+               onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+               onclick="this.setSelectionRange(0, this.value.length);"/>
+
+        <span style="font-size: 1.5em;">:00</span>
+        <select id="am_pm" data-custom-id="meridiem">
+            <option value="am">AM</option>
+            <option value="pm">PM</option>
+        </select>
+    </div>
 
     <a class="nav prev" href="{{pathFor route='destination'}}">
         <div>PREV</div>
@@ -84,22 +135,56 @@
 </template>
 
 <template name="review">
+    {{> today}}
     {{> progress}}
 
     <h1>You will be woken</h1>
-    <p>
-        In (Destination)
-    </p>
-    <p>
-        At (Time)
-    </p>
+    <p>IN</p>
+    <a href="{{pathFor route='destination'}}">
+        <button style="font-size: 1.5em;">
+            {{destination}}
+        </button>
+    </a>
+    <p>ON</p>
+    <a href="{{pathFor route='time'}}">
+        <button style="font-size: 1.5em;">
+            {{time_month}} {{time.getDate}}, {{time.getFullYear}} at {{time.getHours}}:00
+        </button>
+    </a>
 
     <a class="nav prev" href="{{pathFor route='time'}}">
         <div>PREV</div>
     </a>
-    <a class="nav next pulsate" href="#">
+    <a class="nav next pulsate" href="{{pathFor route='payment'}}">
         <div>NEXT</div>
     </a>
+
+    {{> cancel}}
+</template>
+
+<template name="payment">
+    {{> today}}
+    {{> progress}}
+
+    <h1>Please [payment method]</h1>
+    <p>(animation here)</p>
+
+    <a class="nav prev" href="{{pathFor route='time'}}">
+        <div>PREV</div>
+    </a>
+    <a class="nav next pulsate" href="{{pathFor route='freeze'}}">
+        <div>NEXT</div>
+    </a>
+
+    {{> cancel}}
+</template>
+
+<template name="freeze">
+    {{> today}}
+    {{> progress}}
+
+    <h1>PLEASE STEP INSIDE</h1>
+    <p>You have {{seconds}} seconds</p>
 
     {{> cancel}}
 </template>
