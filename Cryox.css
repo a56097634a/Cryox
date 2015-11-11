@@ -17,6 +17,13 @@ body {
     margin: auto;
 }
 
+.map {
+    width: 500px;
+    height: 500px;
+}
+.infowindow {
+    color: black;
+}
 button {
     border: none;
     -webkit-border-radius: 10px;
