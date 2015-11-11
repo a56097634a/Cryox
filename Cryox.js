@@ -78,7 +78,7 @@ if (Meteor.isClient) {
                             position: results[0].geometry.location
                         });
                         infowindow.setContent("<div id=infowindow>"+results[0].formatted_address+"</div>");
-                        infowindow.open(map, marker);
+                        infowindow.open(map.instance, marker);
                         google.maps.event.addListener(marker, 'click', (function(marker) {
                             	map.instance.setCenter(marker.getPosition());
     							return function(){
@@ -160,7 +160,7 @@ if (Meteor.isClient) {
                             	position: results[0].geometry.location
                         	});
                         	infowindow.setContent("<div id=infowindow>"+results[0].formatted_address+"</div>");
-                        	infowindow.open(map, marker);
+                        	infowindow.open(map.instance, marker);
                         	google.maps.event.addListener(marker, 'click', (function(marker) {
                             	map.instance.setCenter(marker.getPosition());
     							return function(){
