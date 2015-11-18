@@ -49,9 +49,9 @@ if (Meteor.isClient) {
             // decrement the counter when button is clicked
             Session.set('counter', Session.get('counter') - 1);
         },
-        'click #dest': function(event){
-        	var value = event.currentTarget.value
-        	console.log('abc');
+        'click .tt-selectable': function(event){
+        	var value = event.currentTarget.innerText
+        	//console.log('abc');
         	Session.set('search', value);
         }
     });
@@ -131,15 +131,23 @@ if (Meteor.isClient) {
     		}
      	},
      	search: function(){
+            
      		var s = Session.get('search');
+            console.log(s);
      		var searchID = "";
      		var facilities = [];
-
+            var zoom = 12
      		if (s == "Google Sydney, Darling Island Road, Pyrmont, New South Wales, Australia"){
      			searchID = "ChIJs3u5LkiuEmsRnD4yjsR31dI";
      			facilities = ["ChIJadrb42quEmsRIOvv-Wh9AQ8", "ChIJ3S-JXmauEmsRUcIaWtf4MzE", "ChIJ24MzG_GwEmsRd2VLWl01368", "ChIJ2fGeq9SxEmsRwAd6A2l9AR0"];
+                zoom = 12;
      		}
      		// num all the facilities and search possible
+            else if (s == "United Arab Emirates") {
+                searchID = "ChIJvRKrsd9IXj4RpwoIwFYv0zM";
+                facilities = ["ChIJ_0V2865cXz4RUL0f816Xf-I", "ChIJ2Y-H54FCXz4R2gdP3D5Mk24", "ChIJ73EMkN5IXj4RXnVtI3mZN5s", "ChIJ68MyYoddXj4R4SvuxX5y6BQ", "ChIJ9W6cOVxbXz4RnHgYkja5--E"];
+                zoom = 8;
+            }
      		else{
      			return
      		}
@@ -152,7 +160,7 @@ if (Meteor.isClient) {
             	geocoder.geocode({'placeId': searchID}, function(results, status) {
                 	if (status === google.maps.GeocoderStatus.OK) {
                     	if (results[0]) {
-                        	map.instance.setZoom(10);
+                        	map.instance.setZoom(zoom);
                         	map.instance.setCenter(results[0].geometry.location);
                         	var marker = new google.maps.Marker({
                             	icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
