@@ -6,6 +6,8 @@
 var MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 if (Meteor.isClient) {
+    Session.set('numFrozen', 42);
+
     /*
      * Start
      */
@@ -13,6 +15,12 @@ if (Meteor.isClient) {
     Template.start.rendered = function() {
         Session.set('destination', 'Nearest Facility');
     };
+
+    Template.start.helpers({
+        numFrozen: function() {
+            return Session.get('numFrozen');
+        }
+    });
 
     /*
      * Today
@@ -90,7 +98,9 @@ if (Meteor.isClient) {
             if (dest_val) {
                 Session.set('destination', dest_val);
             }
-            Session.set('time', new Date());
+            var tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            Session.set('time', tomorrow);  // + (distance * C)
         }
     });
 
@@ -101,31 +111,33 @@ if (Meteor.isClient) {
     Template.time.helpers({
         time : function() {
             return Session.get('time');
+        },
+        time_12hour : function() {
+            return (new Date(Session.get('time')).getHours() + 11) % 12 + 1;
         }
     });
 
-    // TODO: error response (less than min time, 1 < month > 31, 0 < time > 23)
     Template.time.events({
         'keyup #hours': function(event) {
-            var val = parseInt(event.currentTarget.value);
-            if (val > 12 || val == 0) {
-                $('#meridiem').hide();
-            }
-            else {
-                $('#meridiem').show();
-            }
+            //var val = parseInt(event.currentTarget.value);
+            //if (val > 12 || val == 0)
+            //    $('#meridiem').hide();
+            //else
+            //    $('#meridiem').show();
         },
         'click .next': function() {
             var month = $('#month').val();
             var date = $('#date').val();
             var year = $('#year').val();
-            var hours = parseInt($('#hours').val());
-            if (hours != 0 && hours < 12 && $('#am_pm').val() == "pm") {
+            var hours = $('#hours').val();
+            var am_pm = $('#am_pm').val();
+            if (hours != 0 && hours < 12 && am_pm == "pm") {
                 hours += 12;
             }
-            else if (hours == 12 && $('#am_pm').val() == "am") {
+            else if (hours == 12 && am_pm == "am") {
                 hours = 0;
             }
+            Session.set('am_pm', am_pm);
             Session.set('time', new Date(year, month, date, hours, 0, 0));
         }
     });
@@ -134,7 +146,8 @@ if (Meteor.isClient) {
         var date = new Date(Session.get('time'));
         $('#day').val(date.getDay());
         $('#month').val(date.getMonth());
-        $("select").selectOrDie();
+        $('#am_pm').val(date.getHours() < 12 ? "am" : "pm");
+        $('select').selectOrDie();
     };
 
     Template.time.destroyed = function() {
@@ -152,8 +165,31 @@ if (Meteor.isClient) {
         time: function() {
             return Session.get('time');
         },
+        time_12hour: function() {
+            return (Session.get('time').getHours() + 11) % 12 + 1;
+        },
         time_month: function() {
             return MONTH_NAMES[Session.get('time').getMonth()];
+        },
+        am_pm: function() {
+            return Session.get('am_pm').toUpperCase();
+        }
+    });
+
+    /*
+     * Payment
+     */
+
+    Template.payment.rendered = function() {
+        $('.next').removeClass('pulsate');
+    };
+
+    Template.payment.events({
+        'click #img-scan' : function(event) {
+            $(event.currentTarget).toggleClass('pulsate');
+            $(event.currentTarget).toggleClass('faded');
+            $('#accepted').toggle();
+            $('.next').toggleClass('pulsate');
         }
     });
 
@@ -163,7 +199,12 @@ if (Meteor.isClient) {
 
     Template.freeze.rendered = function() {
         Session.set('countdown', 60);
-        Meteor.setInterval(countdown, 1000);
+        this.timer = Meteor.setInterval(countdown, 1000);
+        Session.set('numFrozen', Session.get('numFrozen') + 1);
+    };
+
+    Template.freeze.destroyed = function() {
+        Meteor.clearInterval(this.timer);
     };
 
     Template.freeze.helpers({

@@ -22,8 +22,11 @@
 </template>
 
 <template name="today">
-    <p style="padding-bottom: 1em; border-bottom: 1px solid white;">
+    <p style="padding-bottom: 2em; border-bottom: 1px solid white;">
         {{today_month}} {{today.getDate}}, {{today.getFullYear}}
+        <!--<span style="float: right">-->
+            <!--6 MetroTech Center, Brooklyn, NY 11201-->
+        <!--</span>-->
     </p>
 </template>
 
@@ -34,13 +37,42 @@
 </template>
 
 <template name="start">
-    <h1>CRYOX</h1>
-    <p>For All Your Freezing Needs&trade;</p>
-    <br>
+    <h1><span style="color: #cfe2f3">CRYO</span>X</h1>
+    <p><small>For All Your Freezing Needs&trade;</small></p>
+    <div class="instructions">
+        <div class="section group">
+            <div class="col span_1_of_3">
+                <h1>1</h1>
+                <p>
+                    Choose your destination and wake-up time, and make your payment.
+                </p>
+                <img src="image/instructions_1.png" height="128">
+            </div>
+            <div class="col span_1_of_3">
+                <h1>2</h1>
+                <p>
+                    Enter the CRYOX and get your freeze on.
+                </p>
+                <img src="image/instructions_2.png" height="128">
+            </div>
+            <div class="col span_1_of_3">
+                <h1>3</h1>
+                <p>
+                    We'll pick you up and keep you at one of our facilities until it's time to wake up.
+                </p>
+                <img src="image/instructions_3.png" height="128">
+            </div>
+        </div>
+    </div>
     <div>
         <a href="{{pathFor route='destination'}}">
             <button class="big pulsate">START</button>
         </a>
+    </div>
+    <h1><span style="color: #cfe2f3">{{numFrozen}}</span> people</h1>
+    <p>Have been successfully frozen by this kiosk!</p>
+    <div style="position: fixed; bottom: 1em; left: 50%; transform: translate(-50%);">
+        <small>(This is a Semi-Functional Demo)</small>
     </div>
 </template>
 
@@ -113,10 +145,9 @@
                onkeypress='return event.charCode >= 48 && event.charCode <= 57'
                onclick="this.setSelectionRange(0, this.value.length);"/>
         <p>AT</p>
-        <input value="{{time.getHours}}" size=2 id="hours"
+        <input value="{{time_12hour}}" size=2 id="hours"
                onkeypress='return event.charCode >= 48 && event.charCode <= 57'
                onclick="this.setSelectionRange(0, this.value.length);"/>
-
         <span style="font-size: 1.5em;">:00</span>
         <select id="am_pm" data-custom-id="meridiem">
             <option value="am">AM</option>
@@ -148,7 +179,7 @@
     <p>ON</p>
     <a href="{{pathFor route='time'}}">
         <button style="font-size: 1.5em;">
-            {{time_month}} {{time.getDate}}, {{time.getFullYear}} at {{time.getHours}}:00
+            {{time_month}} {{time.getDate}}, {{time.getFullYear}} at {{time_12hour}}:00 {{am_pm}}
         </button>
     </a>
 
@@ -166,10 +197,13 @@
     {{> today}}
     {{> progress}}
 
-    <h1>Please [payment method]</h1>
-    <p>(animation here)</p>
+    <h1>Please Scan <br> with Your [?] to Pay</h1>
+    <h1 style="display: none;" id="accepted">PAYMENT ACCEPTED</h1>
+    <div id="img-scan" class="pulsate">
+        <img src="image/scannew_forever.gif">
+    </div>
 
-    <a class="nav prev" href="{{pathFor route='time'}}">
+    <a class="nav prev" href="{{pathFor route='review'}}">
         <div>PREV</div>
     </a>
     <a class="nav next pulsate" href="{{pathFor route='freeze'}}">
