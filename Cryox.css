@@ -299,6 +299,7 @@ input {
 
 #img-scan img {
     opacity: .75;
+    z-index: -1;
 }
 
 .faded {
@@ -309,7 +310,6 @@ input {
 #accepted {
     position: absolute;
     left: 0;
-    z-index: 1;
     padding-top: 172px;  /* half of scannew.gif height */
     width: 100%;
     font-weight: bold;

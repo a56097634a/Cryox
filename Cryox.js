@@ -212,6 +212,26 @@ if (Meteor.isClient) {
             return Session.get('countdown');
         }
     });
+
+    /*
+     * Ticket
+     */
+
+    Template.ticket.rendered = function() {
+        Session.set('countdown', 60);
+        this.timer = Meteor.setInterval(countdown, 1000);
+        Session.set('numFrozen', Session.get('numFrozen') + 1);
+    };
+
+    Template.ticket.destroyed = function() {
+        Meteor.clearInterval(this.timer);
+    };
+
+    Template.ticket.helpers({
+        seconds: function() {
+            return Session.get('countdown');
+        }
+    });
 }
 
 var countdown = function() {
@@ -254,3 +274,6 @@ Router.route('/time');
 Router.route('/review');
 Router.route('/payment');
 Router.route('/freeze');
+// manual (no link)
+Router.route('/ticket');
+Router.route('/cop');

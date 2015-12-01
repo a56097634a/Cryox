@@ -197,7 +197,7 @@
     {{> today}}
     {{> progress}}
 
-    <h1>Please Scan <br> with Your [?] to Pay</h1>
+    <h1>Please Scan <br> with Your [?] <br> to Pay</h1>
     <h1 style="display: none;" id="accepted">PAYMENT ACCEPTED</h1>
     <div id="img-scan" class="pulsate">
         <img src="image/scannew_forever.gif">
@@ -209,7 +209,6 @@
     <a class="nav next pulsate" href="{{pathFor route='freeze'}}">
         <div>NEXT</div>
     </a>
-
     {{> cancel}}
 </template>
 
@@ -220,5 +219,32 @@
     <h1>PLEASE STEP INSIDE</h1>
     <p>You have {{seconds}} seconds</p>
 
+    <h2 style="margin-top: 4em;">
+        Thank You for using <span style="color: #cfe2f3;">CRYO</span>X!
+    </h2>
     {{> cancel}}
+</template>
+
+<template name="ticket">
+    {{> today}}
+    <h1>PLEASE STEP INSIDE</h1>
+    <p>You have {{seconds}} seconds</p>
+    <hr><br>
+    <h2>You will be woken</h2>
+    <p>IN</p>
+    <p style="font-size: 1.5em; color: #cfe2f3;">
+        Some Destination
+    </p>
+    <p>ON</p>
+    <p style="font-size: 1.5em; color: #cfe2f3;">
+        December 21, 3012 at 12:00 AM
+    </p>
+    <h2 style="margin-top: 4em; text-shadow: 0 0 10px;">
+        Thank You for using <span style="color: #cfe2f3;">CRYO</span>X!
+    </h2>
+</template>
+
+<template name="cop">
+    {{> today}}
+    <h2></h2>
 </template>
