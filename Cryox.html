@@ -57,11 +57,25 @@
         <div>NEXT</div>
     </a>
 
+    {{> maps}}
+
     <br><br><br><br>
     <p>Map (and stats?)</p>
     <br><br><br><br>
 
     {{> cancel}}
+</template>
+
+<template name="maps">
+    <div class="map">
+        {{> googleMap name="map" options=mapOptions}}
+    </div>
+</template>
+
+<template name="loationLists">
+    <div class="list">
+        
+    </div>
 </template>
 
 <template name="time">
