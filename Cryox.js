@@ -123,14 +123,21 @@ if (Meteor.isClient) {
 
             self.autorun(function() {
             var s = Session.get("search");
-            console.log(s);
             var searchID = "";
             var facilities = [];
-            var zoom = 12
+            var zoom = 12;
+            var infoDetail1 = "";
+            var infoDetail2 = "";
+            var phone1 = "";
+            var phone2 = "";
             if (s == "Google Sydney, Darling Island Road, Pyrmont, New South Wales, Australia"){
                 searchID = "ChIJs3u5LkiuEmsRnD4yjsR31dI";
                 facilities = ["ChIJadrb42quEmsRIOvv-Wh9AQ8", "ChIJ3S-JXmauEmsRUcIaWtf4MzE", "ChIJ24MzG_GwEmsRd2VLWl01368", "ChIJ2fGeq9SxEmsRwAd6A2l9AR0"];
                 zoom = 12;
+                infoDetail1 = "<br> Sydney International Airport Cryox Facility <br> "
+                infoDetail2 = "<br> Sydney City Hospital Facility <br> "
+                phone1 = "<br>Tel: 02-90-6666 <br> Occupancy: 473/1000 <br> Distance: 30 miles"
+                phone2 = "<br>Tel: 02-90-2333 <br> Occupancy: 104/1000 <br> Distance: 6 miles"
             }
             // num all the facilities and search possible
             else if (s == "United Arab Emirates") {
@@ -154,7 +161,7 @@ if (Meteor.isClient) {
                                 map: map.instance,
                                 position: results[0].geometry.location
                             });
-                            infowindow.setContent("<div id=infowindow>"+results[0].formatted_address+"</div>");
+                            infowindow.setContent(results[0].formatted_address);
                             infowindow.open(map.instance, marker);
                             google.maps.event.addListener(marker, 'click', (function(marker) {
                                 map.instance.setCenter(marker.getPosition());
@@ -182,7 +189,15 @@ if (Meteor.isClient) {
                             google.maps.event.addListener(marker, 'click', (function(marker) {
                                 map.instance.setCenter(marker.getPosition());
                                 return function(){
-                                    infowindow.setContent(results[0].formatted_address);
+                                    if (results[0].place_id == "ChIJ24MzG_GwEmsRd2VLWl01368"){
+                                        infowindow.setContent(infoDetail1 + results[0].formatted_address + phone1);
+                                    }
+                                    else if (results[0].place_id == "ChIJ2fGeq9SxEmsRwAd6A2l9AR0"){
+                                        infowindow.setContent(infoDetail2 + results[0].formatted_address + phone2);
+                                    }
+                                    else{
+                                        infowindow.setContent(results[0].formatted_address);
+                                    }
                                     infowindow.open(map.instance, marker);
                                 }
                             })(marker)); 
