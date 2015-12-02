@@ -1,9 +1,3 @@
-@font-face {
-    font-family: Stellar;
-    src:
-    url("/fonts/Stellar-Regular.otf");
-}
-
 a {
     text-decoration: none;
 }
@@ -18,13 +12,23 @@ body {
 }
 
 .map {
-    width: 500px;
+    margin-top: 2em;
+    width: 90%;
     height: 500px;
+    color: black;
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-box-shadow: 0 0 20px white;
+    -moz-box-shadow: 0 0 20px white;
+    box-shadow: 0 0 20px white;
 }
+
 .infowindow {
     color: black;
 }
 button {
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
     border: none;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
@@ -69,6 +73,7 @@ button.cancel {
 }
 .prog ul li {
     display: inline;
+    text-transform: uppercase;
 }
 .prog ul li:not(:last-child)::after {
     content: " - ";
@@ -79,20 +84,17 @@ button.cancel {
 }
 
 .nav {
-    width: 100px;
+    width: 15%;
     height: 100%;
     position:fixed;
-
     color: #cfe2f3;
-
     -webkit-box-shadow: 0 0 20px white;
     -moz-box-shadow: 0 0 20px white;
     box-shadow: 0 0 20px white;
-
     font-size: 1.5em;
     top: 0;
-
     display: table;
+    z-index: 2;
 }
 .nav.next {
     right: 0;
@@ -163,12 +165,14 @@ button.cancel {
 .typeahead,
 .tt-query,
 .tt-hint {
-    width: 396px;
+    width: 500px;
     padding: 8px 12px;
     line-height: 30px;
 }
 
 .typeahead {
+    font-family: 'Montserrat', sans-serif;
+    -webkit-appearance: none;
     border: none;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
@@ -177,13 +181,11 @@ button.cancel {
     -moz-box-shadow: 0 0 20px white;
     box-shadow: 0 0 20px white;
     color: #cfe2f3;
-    background-color: rgba(67, 67, 67, 0.50);
-
+    background-color: rgba(67, 67, 67, 0.9);
     text-align: center;
     font-size: 1.5em;
     outline: none;
 }
-
 
 .tt-query {
 
@@ -194,11 +196,11 @@ button.cancel {
 }
 
 .tt-menu {
-    width: 422px;
-    margin: 1em 0;
+    width: 524px;
+    margin: -5px 0;
     padding: 8px 0;
-    background-color: rgba(67, 67, 67, 0.75);
-    border: 1px solid white;
+    background-color: rgba(67, 67, 67, 0.9);
+    /*border: 1px solid white;*/
     overflow-y: auto;
     max-height: 12em;
 }
@@ -211,11 +213,11 @@ button.cancel {
 
 .tt-suggestion:hover {
     cursor: pointer;
-    background-color: rgba(106, 106, 106, 0.5);
+    background-color: rgba(106, 106, 106, 0.9);
 }
 
 .tt-suggestion.tt-cursor {
-    background-color: rgba(106, 106, 106, 0.5);
+    background-color: rgba(106, 106, 106, 0.9);
 }
 
 .tt-suggestion p {
@@ -236,4 +238,96 @@ button.cancel {
 
 :-ms-input-placeholder {
     color: #cfe2f3;
+}
+
+input {
+    font-family: 'Montserrat', sans-serif;
+    -webkit-appearance: none;
+    border: none;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 0 20px white;
+    -moz-box-shadow: 0 0 20px white;
+    box-shadow: 0 0 20px white;
+    color: #cfe2f3;
+    background-color: rgba(67, 67, 67, 0.90);
+    text-align: center;
+    outline: none;
+    font-size: 1.5em;
+    padding: 0.25em;
+}
+
+#meridiem {
+    width: 4em;
+}
+
+
+/*  SECTIONS  */
+.section {
+    clear: both;
+    padding: 0px;
+    margin: 0px;
+}
+
+/*  COLUMN SETUP  */
+.col {
+    display: block;
+    float:left;
+    margin: 1% 0 1% 1.6%;
+}
+.col:first-child { margin-left: 0; }
+
+/*  GROUPING  */
+.group:before,
+.group:after { content:""; display:table; }
+.group:after { clear:both;}
+.group { zoom:1; /* For IE 6/7 */ }
+/*  GRID OF THREE  */
+.span_3_of_3 { width: 100%; }
+.span_2_of_3 { width: 66.13%; }
+.span_1_of_3 { width: 32.26%; }
+.span_1_of_2 { width: 49.2%; }
+
+/*  GO FULL WIDTH BELOW 480 PIXELS */
+@media only screen and (max-width: 480px) {
+    .col {  margin: 1% 0 1% 0%; }
+    .span_3_of_3, .span_2_of_3, .span_1_of_3 { width: 100%; }
+}
+
+.instructions {
+    width: 80%;
+    margin: auto;
+    padding-bottom: 1em;
+}
+
+.instructions h1 {
+    margin-top: 0;
+}
+
+#img-scan {
+    margin-top: 2em;
+    line-height: 0;
+    display:inline-block;
+    -webkit-box-shadow: 0 0 20px white;
+    -moz-box-shadow: 0 0 20px white;
+    box-shadow: 0 0 20px white;
+}
+
+#img-scan img {
+    opacity: .75;
+    z-index: -1;
+}
+
+.faded {
+    opacity: 0.5;
+    -webkit-filter: blur(5px);
+}
+
+#accepted {
+    position: absolute;
+    left: 0;
+    padding-top: 172px;  /* half of scannew.gif height */
+    width: 100%;
+    font-weight: bold;
 }
