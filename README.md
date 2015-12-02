@@ -29,3 +29,5 @@ rm -rf Cryox/
 iron:router
 
 sergeyt:typeahead
+
+dburles:google-maps
