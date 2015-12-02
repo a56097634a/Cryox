@@ -22,7 +22,7 @@
 </template>
 
 <template name="today">
-    <p style="padding-bottom: 2em; border-bottom: 1px solid white;">
+    <p style="padding-bottom: 1em; border-bottom: 1px solid white;">
         {{today_month}} {{today.getDate}}, {{today.getFullYear}}
         <!--<span style="float: right">-->
             <!--6 MetroTech Center, Brooklyn, NY 11201-->
@@ -81,14 +81,17 @@
     {{> progress}}
 
     <h1>Choose A Destination</h1>
-    <h2>Where would you like to go?</h2>
+    <h2>Take me to</h2>
+    <!-- TODO: disclaimer/info link, search icon -->
 
     <div class="form-group">
         <input id="dest" class="form-control typeahead" name="dest" type="text"
                placeholder="{{ destination }}"
+               value="{{ destination }}"
                autocomplete="off" spellcheck="off"
                data-source="destinations"
-               data-limit="100"/>
+               data-limit="100"
+               onclick="this.setSelectionRange(0, this.value.length);"/>
     </div>
 
     <a class="nav prev" href="{{pathFor route='start'}}">
@@ -97,32 +100,30 @@
     <a class="nav next pulsate" href="{{pathFor route='time'}}">
         <div>NEXT</div>
     </a>
-
-    <br><br><br><br>
-    <p>Map (and stats?)</p>
-    <br><br><br><br>
+    {{> maps}}
+    <p style="font-size: 1.3em">
+        Please select a
+        <img style="vertical-align: middle;" src="http://maps.google.com/mapfiles/ms/icons/red-dot.png">
+    </p>
 
     {{> cancel}}
 </template>
+
+<template name="maps">
+    <div class="map">
+        {{> googleMap name="map" options=mapOptions}}
+    </div>
+</template>
+
 
 <template name="time">
     {{> today}}
     {{> progress}}
 
     <h1>Choose A Time</h1>
-    <h2>When would you like to be woken?</h2>
+    <h2>Wake me up</h2>
     <div class="form-group">
-        <!--<div style="padding-bottom: 2em;">-->
-            <!--<select id="day">-->
-                <!--<option value="1">Monday</option>-->
-                <!--<option value="2">Tuesday</option>-->
-                <!--<option value="3">Wednesday</option>-->
-                <!--<option value="4">Thursday</option>-->
-                <!--<option value="5">Friday</option>-->
-                <!--<option value="6">Saturday</option>-->
-                <!--<option value="0">Sunday</option>-->
-            <!--</select>-->
-        <!--</div>-->
+        <p>ON</p>
         <select id="month">
             <option value="0">January</option>
             <option value="1">February</option>
@@ -182,6 +183,8 @@
             {{time_month}} {{time.getDate}}, {{time.getFullYear}} at {{time_12hour}}:00 {{am_pm}}
         </button>
     </a>
+    <h1 style="margin-top: 2em">You will be charged</h1>
+    <p style="font-size: 2em; color: #cfe2f3;">1,000,000 Ƀ</p>
 
     <a class="nav prev" href="{{pathFor route='time'}}">
         <div>PREV</div>
@@ -196,39 +199,33 @@
 <template name="payment">
     {{> today}}
     {{> progress}}
-
-    <h1>Please Scan <br> with Your [?] <br> to Pay</h1>
-    <h1 style="display: none;" id="accepted">PAYMENT ACCEPTED</h1>
+    <h1>Please Hold Your [?] Near Reader to Pay</h1>
+    <h1 style="display: none; z-index: 1;" id="accepted">PAYMENT ACCEPTED</h1>
     <div id="img-scan" class="pulsate">
         <img src="image/scannew_forever.gif">
     </div>
-
     <a class="nav prev" href="{{pathFor route='review'}}">
         <div>PREV</div>
     </a>
-    <a class="nav next pulsate" href="{{pathFor route='freeze'}}">
-        <div>NEXT</div>
-    </a>
+    <!--<a class="nav next pulsate" href="{{pathFor route='freeze'}}">-->
+        <!--<div>NEXT</div>-->
+    <!--</a>-->
     {{> cancel}}
 </template>
 
 <template name="freeze">
     {{> today}}
     {{> progress}}
-
     <h1>PLEASE STEP INSIDE</h1>
-    <p>You have {{seconds}} seconds</p>
-
-    <h2 style="margin-top: 4em;">
-        Thank You for using <span style="color: #cfe2f3;">CRYO</span>X!
-    </h2>
+    <p style="margin-top: 4em;">You have  <span style="font-size: 2em;">{{seconds}}</span> seconds</p>
+    {{> thanks}}
     {{> cancel}}
 </template>
 
 <template name="ticket">
     {{> today}}
     <h1>PLEASE STEP INSIDE</h1>
-    <p>You have {{seconds}} seconds</p>
+    <p>You have <span style="font-size: 2em;">{{seconds}}</span> seconds</p>
     <hr><br>
     <h2>You will be woken</h2>
     <p>IN</p>
@@ -239,12 +236,11 @@
     <p style="font-size: 1.5em; color: #cfe2f3;">
         December 21, 3012 at 12:00 AM
     </p>
+    {{> thanks}}
+</template>
+
+<template name="thanks">
     <h2 style="margin-top: 4em; text-shadow: 0 0 10px;">
         Thank You for using <span style="color: #cfe2f3;">CRYO</span>X!
     </h2>
-</template>
-
-<template name="cop">
-    {{> today}}
-    <h2></h2>
 </template>

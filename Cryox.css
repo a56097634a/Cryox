@@ -11,6 +11,21 @@ body {
     margin: auto;
 }
 
+.map {
+    margin-top: 2em;
+    width: 90%;
+    height: 500px;
+    color: black;
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-box-shadow: 0 0 20px white;
+    -moz-box-shadow: 0 0 20px white;
+    box-shadow: 0 0 20px white;
+}
+
+.infowindow {
+    color: black;
+}
 button {
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
@@ -69,7 +84,7 @@ button.cancel {
 }
 
 .nav {
-    width: 100px;
+    width: 15%;
     height: 100%;
     position:fixed;
     color: #cfe2f3;
@@ -79,6 +94,7 @@ button.cancel {
     font-size: 1.5em;
     top: 0;
     display: table;
+    z-index: 2;
 }
 .nav.next {
     right: 0;
@@ -149,7 +165,7 @@ button.cancel {
 .typeahead,
 .tt-query,
 .tt-hint {
-    width: 396px;
+    width: 500px;
     padding: 8px 12px;
     line-height: 30px;
 }
@@ -180,11 +196,11 @@ button.cancel {
 }
 
 .tt-menu {
-    width: 422px;
-    margin: 1em 0;
+    width: 524px;
+    margin: -5px 0;
     padding: 8px 0;
     background-color: rgba(67, 67, 67, 0.9);
-    border: 1px solid white;
+    /*border: 1px solid white;*/
     overflow-y: auto;
     max-height: 12em;
 }
@@ -271,6 +287,7 @@ input {
 .span_3_of_3 { width: 100%; }
 .span_2_of_3 { width: 66.13%; }
 .span_1_of_3 { width: 32.26%; }
+.span_1_of_2 { width: 49.2%; }
 
 /*  GO FULL WIDTH BELOW 480 PIXELS */
 @media only screen and (max-width: 480px) {
