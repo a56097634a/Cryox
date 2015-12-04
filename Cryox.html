@@ -21,6 +21,15 @@
     </div>
 </template>
 
+<template name="today">
+    <p style="padding-bottom: 1em; border-bottom: 1px solid white;">
+        {{today_month}} {{today.getDate}}, {{today.getFullYear}}
+        <!--<span style="float: right">-->
+            <!--6 MetroTech Center, Brooklyn, NY 11201-->
+        <!--</span>-->
+    </p>
+</template>
+
 <template name="cancel">
     <a href="{{pathFor route='start'}}">
         <button class="cancel">CANCEL</button>
@@ -28,26 +37,61 @@
 </template>
 
 <template name="start">
-    <h1>CRYOX</h1>
-    <p>For All Your Freezing Needs&trade;</p>
-    <br>
+    <h1><span style="color: #cfe2f3">CRYO</span>X</h1>
+    <p><small>For All Your Freezing Needs&trade;</small></p>
+    <div class="instructions">
+        <div class="section group">
+            <div class="col span_1_of_3">
+                <h1>1</h1>
+                <p>
+                    Choose your destination and wake-up time, and make your payment.
+                </p>
+                <img src="image/instructions_1.png" height="128">
+            </div>
+            <div class="col span_1_of_3">
+                <h1>2</h1>
+                <p>
+                    Enter the CRYOX and get your freeze on.
+                </p>
+                <img src="image/instructions_2.png" height="128">
+            </div>
+            <div class="col span_1_of_3">
+                <h1>3</h1>
+                <p>
+                    We'll pick you up and keep you at one of our facilities until it's time to wake up.
+                </p>
+                <img src="image/instructions_3.png" height="128">
+            </div>
+        </div>
+    </div>
     <div>
-        <a href="{{pathFor route='destination'}}"><button class="big pulsate">START</button></a>
+        <a href="{{pathFor route='destination'}}">
+            <button class="big pulsate">START</button>
+        </a>
+    </div>
+    <h1><span style="color: #cfe2f3">{{numFrozen}}</span> people</h1>
+    <p>Have been successfully frozen by this kiosk!</p>
+    <div style="position: fixed; bottom: 1em; left: 50%; transform: translate(-50%);">
+        <small>(This is a Semi-Functional Demo)</small>
     </div>
 </template>
 
 <template name="destination">
+    {{> today}}
     {{> progress}}
 
     <h1>Choose A Destination</h1>
-    <h2>Please type where you would like to go</h2>
+    <h2>Take me to</h2>
+    <!-- TODO: disclaimer/info link, search icon -->
 
     <div class="form-group">
-        <input class="form-control typeahead" name="dest" type="text"
-               placeholder="Nearest Facility"
+        <input id="dest" class="form-control typeahead" name="dest" type="text"
+               placeholder="{{ destination }}"
+               value="{{ destination }}"
                autocomplete="off" spellcheck="off"
                data-source="destinations"
-               data-limit="100"/>
+               data-limit="100"
+               onclick="this.setSelectionRange(0, this.value.length);"/>
     </div>
 
     <a class="nav prev" href="{{pathFor route='start'}}">
@@ -56,12 +100,11 @@
     <a class="nav next pulsate" href="{{pathFor route='time'}}">
         <div>NEXT</div>
     </a>
-
     {{> maps}}
-
-    <br><br><br><br>
-    <p>Map (and stats?)</p>
-    <br><br><br><br>
+    <p style="font-size: 1.3em">
+        Please select a
+        <img style="vertical-align: middle;" src="http://maps.google.com/mapfiles/ms/icons/red-dot.png">
+    </p>
 
     {{> cancel}}
 </template>
@@ -72,20 +115,46 @@
     </div>
 </template>
 
-<template name="loationLists">
-    <div class="list">
-        
-    </div>
-</template>
 
 <template name="time">
+    {{> today}}
     {{> progress}}
 
     <h1>Choose A Time</h1>
-    <h2>When would you like to be woken?</h2>
-    <p>
-        draggable time selector (day of the week displayed accordingly)
-    </p>
+    <h2>Wake me up</h2>
+    <div class="form-group">
+        <p>ON</p>
+        <select id="month">
+            <option value="0">January</option>
+            <option value="1">February</option>
+            <option value="2">March</option>
+            <option value="3">April</option>
+            <option value="4">May</option>
+            <option value="5">June</option>
+            <option value="6">July</option>
+            <option value="7">August</option>
+            <option value="8">September</option>
+            <option value="9">October</option>
+            <option value="10">November</option>
+            <option value="11">December</option>
+        </select>
+        <input value="{{time.getDate}}" size=2 id="date"
+               onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+               onclick="this.setSelectionRange(0, this.value.length);"/>
+
+        <input value="{{time.getFullYear}}" size=4 id="year"
+               onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+               onclick="this.setSelectionRange(0, this.value.length);"/>
+        <p>AT</p>
+        <input value="{{time_12hour}}" size=2 id="hours"
+               onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+               onclick="this.setSelectionRange(0, this.value.length);"/>
+        <span style="font-size: 1.5em;">:00</span>
+        <select id="am_pm" data-custom-id="meridiem">
+            <option value="am">AM</option>
+            <option value="pm">PM</option>
+        </select>
+    </div>
 
     <a class="nav prev" href="{{pathFor route='destination'}}">
         <div>PREV</div>
@@ -98,22 +167,80 @@
 </template>
 
 <template name="review">
+    {{> today}}
     {{> progress}}
 
     <h1>You will be woken</h1>
-    <p>
-        In (Destination)
-    </p>
-    <p>
-        At (Time)
-    </p>
+    <p>IN</p>
+    <a href="{{pathFor route='destination'}}">
+        <button style="font-size: 1.5em;">
+            {{destination}}
+        </button>
+    </a>
+    <p>ON</p>
+    <a href="{{pathFor route='time'}}">
+        <button style="font-size: 1.5em;">
+            {{time_month}} {{time.getDate}}, {{time.getFullYear}} at {{time_12hour}}:00 {{am_pm}}
+        </button>
+    </a>
+    <h1 style="margin-top: 2em">You will be charged</h1>
+    <p style="font-size: 2em; color: #cfe2f3;">1,000,000 Ƀ</p>
 
     <a class="nav prev" href="{{pathFor route='time'}}">
         <div>PREV</div>
     </a>
-    <a class="nav next pulsate" href="#">
+    <a class="nav next pulsate" href="{{pathFor route='payment'}}">
         <div>NEXT</div>
     </a>
 
     {{> cancel}}
+</template>
+
+<template name="payment">
+    {{> today}}
+    {{> progress}}
+    <h1>Please Hold Your [?] Near Reader to Pay</h1>
+    <h1 style="display: none; z-index: 1;" id="accepted">PAYMENT ACCEPTED</h1>
+    <div id="img-scan" class="pulsate">
+        <img src="image/scannew_forever.gif">
+    </div>
+    <a class="nav prev" href="{{pathFor route='review'}}">
+        <div>PREV</div>
+    </a>
+    <!--<a class="nav next pulsate" href="{{pathFor route='freeze'}}">-->
+        <!--<div>NEXT</div>-->
+    <!--</a>-->
+    {{> cancel}}
+</template>
+
+<template name="freeze">
+    {{> today}}
+    {{> progress}}
+    <h1>PLEASE STEP INSIDE</h1>
+    <p style="margin-top: 4em;">You have  <span style="font-size: 2em;">{{seconds}}</span> seconds</p>
+    {{> thanks}}
+    {{> cancel}}
+</template>
+
+<template name="ticket">
+    {{> today}}
+    <h1>PLEASE STEP INSIDE</h1>
+    <p>You have <span style="font-size: 2em;">{{seconds}}</span> seconds</p>
+    <hr><br>
+    <h2>You will be woken</h2>
+    <p>IN</p>
+    <p style="font-size: 1.5em; color: #cfe2f3;">
+        Some Destination
+    </p>
+    <p>ON</p>
+    <p style="font-size: 1.5em; color: #cfe2f3;">
+        December 21, 3012 at 12:00 AM
+    </p>
+    {{> thanks}}
+</template>
+
+<template name="thanks">
+    <h2 style="margin-top: 4em; text-shadow: 0 0 10px;">
+        Thank You for using <span style="color: #cfe2f3;">CRYO</span>X!
+    </h2>
 </template>
