@@ -197,12 +197,12 @@ button.cancel {
 
 .tt-menu {
     width: 524px;
-    margin: -5px 0;
+    margin: 0 0;
     padding: 8px 0;
     background-color: rgba(67, 67, 67, 0.9);
     /*border: 1px solid white;*/
     overflow-y: auto;
-    max-height: 12em;
+    max-height: 30em;
 }
 
 .tt-suggestion {
@@ -330,4 +330,8 @@ input {
     padding-top: 172px;  /* half of scannew.gif height */
     width: 100%;
     font-weight: bold;
+}
+
+#dest {
+    background: url(image/search_icon.png) no-repeat scroll 0 0;
 }
