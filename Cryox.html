@@ -70,7 +70,7 @@
         </a>
     </div>
     <h1><span style="color: #cfe2f3">{{numFrozen}}</span> people</h1>
-    <p>Have been successfully frozen by this kiosk!</p>
+    <h3>Have been successfully frozen by CRYOX!</h3>
 
     <!--<div>-->
         <!--<button>More Information</button>-->
@@ -160,7 +160,13 @@
             <option value="pm">PM</option>
         </select>
     </div>
-
+    <div style="margin-top: 3em;">
+        <p>The earliest we can wake you is</p>
+        <p>
+            on <span style="font-size: 1.25em; color: #cfe2f3;">{{time_month}} {{time.getDate}}, {{time.getFullYear}}</span>
+            at <span style="font-size: 1.25em; color: #cfe2f3;">{{time_12hour}} {{am_pm}}</span>
+        </p>
+    </div>
     <a class="nav prev" href="{{pathFor route='destination'}}">
         <div>PREV</div>
     </a>
@@ -189,7 +195,7 @@
         </button>
     </a>
     <h1 style="margin-top: 2em">You will be charged</h1>
-    <p style="font-size: 2em; color: #cfe2f3;">1,000,000 Ƀ</p>
+    <p style="font-size: 2em; color: #cfe2f3;">10,099 Ƀ</p>
 
     <a class="nav prev" href="{{pathFor route='time'}}">
         <div>PREV</div>
@@ -204,7 +210,7 @@
 <template name="payment">
     {{> today}}
     {{> progress}}
-    <h1>Please Hold Your [?] Near Reader to Pay</h1>
+    <h1>Please Hold Your Device Near Reader to Pay</h1>
     <h1 style="display: none; z-index: 1;" id="accepted">PAYMENT ACCEPTED</h1>
     <div id="img-scan" class="pulsate">
         <img src="image/scannew_forever.gif">
