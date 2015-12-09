@@ -6,7 +6,7 @@
 var MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 if (Meteor.isClient) {
-    Session.set('numFrozen', 42);
+    Session.set('numFrozen', 1200042);
 
     /*
      * Start
@@ -14,11 +14,16 @@ if (Meteor.isClient) {
 
     Template.start.rendered = function() {
         Session.set('destination', 'The Nearest Facility');
+        this.timer = Meteor.setInterval(incNumFrozen, 2000);
+    };
+
+    Template.start.destroyed = function() {
+        Meteor.clearInterval(this.timer);
     };
 
     Template.start.helpers({
         numFrozen: function() {
-            return Session.get('numFrozen');
+            return Session.get('numFrozen').toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     });
 
@@ -109,6 +114,7 @@ if (Meteor.isClient) {
             }
             var tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setFullYear(2053);
             Session.set('time', tomorrow);  // + (distance * C)
         }
     });
@@ -319,6 +325,12 @@ if (Meteor.isClient) {
         },
         time_12hour : function() {
             return (new Date(Session.get('time')).getHours() + 11) % 12 + 1;
+        },
+        time_month : function() {
+            return MONTH_NAMES[Session.get('time').getMonth()];
+        },
+        am_pm : function() {
+            return Session.get('am_pm');
         }
     });
 
@@ -351,7 +363,9 @@ if (Meteor.isClient) {
         var date = new Date(Session.get('time'));
         $('#day').val(date.getDay());
         $('#month').val(date.getMonth());
-        $('#am_pm').val(date.getHours() < 12 ? "am" : "pm");
+        var am_pm = date.getHours() < 12 ? "am" : "pm";
+        $('#am_pm').val(am_pm);
+        Session.set('am_pm', am_pm);
         $('select').selectOrDie();
     };
 
@@ -410,7 +424,7 @@ if (Meteor.isClient) {
     Template.freeze.rendered = function() {
         Session.set('countdown', 60);
         this.timer = Meteor.setInterval(countdown, 1000);
-        Session.set('numFrozen', Session.get('numFrozen') + 1);
+        //Session.set('numFrozen', Session.get('numFrozen') + 1);
     };
 
     Template.freeze.destroyed = function() {
@@ -430,7 +444,7 @@ if (Meteor.isClient) {
     Template.ticket.rendered = function() {
         Session.set('countdown', 60);
         this.timer = Meteor.setInterval(countdown, 1000);
-        Session.set('numFrozen', Session.get('numFrozen') + 1);
+        //Session.set('numFrozen', Session.get('numFrozen') + 1);
     };
 
     Template.ticket.destroyed = function() {
@@ -450,6 +464,12 @@ var countdown = function() {
         current = 61;
     }
     Session.set('countdown', --current);
+};
+
+var incNumFrozen = function() {
+    var increase = Math.floor(Math.random() * (1000 - 1 + 1)) + 1;
+    var current = Session.get('numFrozen') + increase;
+    Session.set('numFrozen', current);
 };
 
 Destinations = new Meteor.Collection("destinations");

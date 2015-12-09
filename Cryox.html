@@ -58,7 +58,7 @@
             <div class="col span_1_of_3">
                 <h1>3</h1>
                 <p>
-                    We'll pick you up and keep you at one of our facilities until it's time to wake up.
+                    We'll pick you up and keep you at one of our facilities until you're ready.
                 </p>
                 <img src="image/instructions_3.png" height="128">
             </div>
@@ -70,7 +70,12 @@
         </a>
     </div>
     <h1><span style="color: #cfe2f3">{{numFrozen}}</span> people</h1>
-    <p>Have been successfully frozen by this kiosk!</p>
+    <h3>Have been successfully frozen by CRYOX!</h3>
+
+    <!--<div>-->
+        <!--<button>More Information</button>-->
+    <!--</div>-->
+
     <div style="position: fixed; bottom: 1em; left: 50%; transform: translate(-50%);">
         <small>(This is a Semi-Functional Demo)</small>
     </div>
@@ -155,7 +160,13 @@
             <option value="pm">PM</option>
         </select>
     </div>
-
+    <div style="margin-top: 3em;">
+        <p>The earliest we can wake you is</p>
+        <p>
+            on <span style="font-size: 1.25em; color: #cfe2f3;">{{time_month}} {{time.getDate}}, {{time.getFullYear}}</span>
+            at <span style="font-size: 1.25em; color: #cfe2f3;">{{time_12hour}} {{am_pm}}</span>
+        </p>
+    </div>
     <a class="nav prev" href="{{pathFor route='destination'}}">
         <div>PREV</div>
     </a>
@@ -184,7 +195,7 @@
         </button>
     </a>
     <h1 style="margin-top: 2em">You will be charged</h1>
-    <p style="font-size: 2em; color: #cfe2f3;">1,000,000 Ƀ</p>
+    <p style="font-size: 2em; color: #cfe2f3;">10,099 Ƀ</p>
 
     <a class="nav prev" href="{{pathFor route='time'}}">
         <div>PREV</div>
@@ -199,7 +210,7 @@
 <template name="payment">
     {{> today}}
     {{> progress}}
-    <h1>Please Hold Your [?] Near Reader to Pay</h1>
+    <h1>Please Hold Your Device Near Reader to Pay</h1>
     <h1 style="display: none; z-index: 1;" id="accepted">PAYMENT ACCEPTED</h1>
     <div id="img-scan" class="pulsate">
         <img src="image/scannew_forever.gif">
@@ -207,6 +218,9 @@
     <a class="nav prev" href="{{pathFor route='review'}}">
         <div>PREV</div>
     </a>
+    <p style="color: transparent">
+        Included to prevent glowing line "remnant" on next template.
+    </p>
     <!--<a class="nav next pulsate" href="{{pathFor route='freeze'}}">-->
         <!--<div>NEXT</div>-->
     <!--</a>-->
@@ -230,11 +244,11 @@
     <h2>You will be woken</h2>
     <p>IN</p>
     <p style="font-size: 1.5em; color: #cfe2f3;">
-        Some Destination
+        Bikini Atoll Cryox Facility
     </p>
     <p>ON</p>
     <p style="font-size: 1.5em; color: #cfe2f3;">
-        December 21, 3012 at 12:00 AM
+        July 1, 3046 at 12:00 AM
     </p>
     {{> thanks}}
 </template>
